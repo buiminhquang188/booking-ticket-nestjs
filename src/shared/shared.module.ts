@@ -1,15 +1,18 @@
-import { HttpModule } from '@nestjs/axios';
-import { Global, Module } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
+import { HttpModule } from "@nestjs/axios";
+import { Global, Module } from "@nestjs/common";
+import { CqrsModule } from "@nestjs/cqrs";
 
+import { LoggerModule } from "../modules/logger/logger.module";
 // import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { ApiConfigService } from './services/api-config.service';
+import { ApiConfigService } from "./services/api-config.service";
 // import { AwsS3Service } from './services/aws-s3.service';
-import { GeneratorService } from './services/generator.service';
-import { TranslationService } from './services/translation.service';
-import { ValidatorService } from './services/validator.service';
+import { GeneratorService } from "./services/generator.service";
+import { LoggerService } from "./services/logger.service";
+import { TranslationService } from "./services/translation.service";
+import { ValidatorService } from "./services/validator.service";
 
 const providers = [
+  LoggerService,
   ApiConfigService,
   ValidatorService,
   // AwsS3Service,
@@ -34,7 +37,7 @@ const providers = [
 @Global()
 @Module({
   providers,
-  imports: [HttpModule, CqrsModule],
+  imports: [HttpModule, CqrsModule, LoggerModule],
   exports: [...providers, HttpModule, CqrsModule],
 })
 export class SharedModule {}

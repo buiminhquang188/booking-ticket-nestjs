@@ -1,3 +1,4 @@
+import { format } from "@utils/logger";
 import {
   ClassSerializerInterceptor,
   HttpStatus,
@@ -26,6 +27,7 @@ import { setupSwagger } from "./setup-swagger";
 import { ApiConfigService } from "./shared/services/api-config.service";
 import { TranslationService } from "./shared/services/translation.service";
 import { SharedModule } from "./shared/shared.module";
+import { LoggerService } from "@shared/services/logger.service";
 
 export async function bootstrap(): Promise<NestExpressApplication> {
   initializeTransactionalContext();
@@ -45,7 +47,11 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     })
   );
   app.use(compression());
-  app.use(morgan("combined"));
+  app.use(
+    morgan(format, {
+      stream: app.select(SharedModule).get(LoggerService).stream(),
+    })
+  );
   app.enableVersioning();
 
   const reflector = app.get(Reflector);

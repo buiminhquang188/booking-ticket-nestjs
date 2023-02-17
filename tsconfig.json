@@ -8,6 +8,7 @@
     "removeComments": true,
     "noLib": false,
     "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
@@ -17,13 +18,13 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "incremental": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "@*": ["*"],
+      "@common/*": ["common/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.json", ".env", "nodemon.json"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

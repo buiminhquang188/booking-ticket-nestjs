@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 /**
  * generate hash from password or string
@@ -28,7 +28,7 @@ export function validateHash(
 
 export function getVariableName<TResult>(getVar: () => TResult): string {
   const m = /\(\)=>(.*)/.exec(
-    getVar.toString().replace(/(\r\n|\n|\r|\s)/gm, ''),
+    getVar.toString().replace(/(\r\n|\n|\r|\s)/gm, ""),
   );
 
   if (!m) {
@@ -39,7 +39,7 @@ export function getVariableName<TResult>(getVar: () => TResult): string {
 
   const fullMemberName = m[1];
 
-  const memberParts = fullMemberName.split('.');
+  const memberParts = fullMemberName.split(".");
 
   return memberParts[memberParts.length - 1];
 }

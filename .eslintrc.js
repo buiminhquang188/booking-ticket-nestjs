@@ -47,8 +47,8 @@ module.exports = {
     'unicorn/prefer-module': 'off',
     'unicorn/prefer-node-protocol': 'off',
     'sonarjs/no-duplicate-string': 'off',
-    'import/no-unresolved': ['error', {ignore: ['^@hrdrone\/*']}],
-    'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'all', tabWidth: 2, bracketSpacing: true}],
+    'import/no-unresolved': ['error', { ignore: ['^@hrdrone\/*'] }],
+    'prettier/prettier': ['error', { trailingComma: 'es5', tabWidth: 2, bracketSpacing: true, endOfLine: 'auto' }],
     /**
      * plugin:simple-import-sort
      */
@@ -60,10 +60,10 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
-      {argsIgnorePattern: '^_', 'vars': 'all', 'args': 'after-used'},
+      { argsIgnorePattern: '^_', 'vars': 'all', 'args': 'after-used' },
     ],
     '@typescript-eslint/adjacent-overload-signatures': 'error',
-    '@typescript-eslint/array-type': ['error', {default: 'array-simple'}],
+    '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
     '@typescript-eslint/ban-types': [
       'error',
       {
@@ -131,7 +131,7 @@ module.exports = {
     '@typescript-eslint/no-duplicate-enum-values': 'error',
     '@typescript-eslint/no-empty-interface': 'error',
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'error',
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/ban-ts-comment': 'error',
@@ -140,7 +140,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/consistent-type-imports': [
       'error',
-      {prefer: 'type-imports'},
+      { prefer: 'type-imports' },
     ],
     '@typescript-eslint/no-misused-new': 'error',
     '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -161,7 +161,7 @@ module.exports = {
     '@typescript-eslint/prefer-namespace-keyword': 'error',
     '@typescript-eslint/quotes': [
       'error',
-      'single',
+      'double',
       {
         avoidEscape: true,
         allowTemplateLiterals: true,
@@ -217,13 +217,13 @@ module.exports = {
     'no-await-in-loop': 'error',
     'padding-line-between-statements': [
       'error',
-      {blankLine: 'always', prev: '*', next: 'return'},
-      {blankLine: 'always', prev: '*', next: 'try'},
-      {blankLine: 'always', prev: 'try', next: '*'},
-      {blankLine: 'always', prev: '*', next: 'block-like'},
-      {blankLine: 'always', prev: 'block-like', next: '*'},
-      {blankLine: 'always', prev: '*', next: 'throw'},
-      {blankLine: 'always', prev: 'var', next: '*'},
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: '*', next: 'try' },
+      { blankLine: 'always', prev: 'try', next: '*' },
+      { blankLine: 'always', prev: '*', next: 'block-like' },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+      { blankLine: 'always', prev: '*', next: 'throw' },
+      { blankLine: 'always', prev: 'var', next: '*' },
     ],
     'arrow-body-style': 'error',
     'arrow-parens': ['error', 'always'],
