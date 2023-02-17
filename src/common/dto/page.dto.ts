@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
-import { PageMetaDto } from './page-meta.dto';
+import { PageMetaDto } from "./page-meta.dto";
 
 export class PageDto<T> {
   @ApiProperty({ isArray: true })

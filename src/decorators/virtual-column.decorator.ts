@@ -1,4 +1,4 @@
-export const VIRTUAL_COLUMN_KEY = Symbol('VIRTUAL_COLUMN_KEY');
+export const VIRTUAL_COLUMN_KEY = Symbol("VIRTUAL_COLUMN_KEY");
 
 export function VirtualColumn(name?: string): PropertyDecorator {
   return (target, propertyKey) => {

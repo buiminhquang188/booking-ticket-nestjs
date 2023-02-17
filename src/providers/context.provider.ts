@@ -1,14 +1,14 @@
-import { getValue, setValue } from 'express-ctx';
+import { getValue, setValue } from "express-ctx";
 
-import type { LanguageCode } from '../constants';
-import type { UserEntity } from '../modules/user/user.entity';
+import type { LanguageCode } from "../constants";
+import type { UserEntity } from "../entity/user.entity";
 
 export class ContextProvider {
-  private static readonly nameSpace = 'request';
+  private static readonly nameSpace = "request";
 
-  private static readonly authUserKey = 'user_key';
+  private static readonly authUserKey = "user_key";
 
-  private static readonly languageKey = 'language_key';
+  private static readonly languageKey = "language_key";
 
   private static get<T>(key: string): T | undefined {
     return getValue<T>(ContextProvider.getKeyWithNamespace(key));

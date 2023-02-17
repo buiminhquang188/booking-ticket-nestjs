@@ -12,9 +12,9 @@ import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 
 import { RoleType } from "../../constants";
 import { ApiFile, Auth, AuthUser } from "../../decorators";
+import { UserEntity } from "../../entity/user.entity";
 import { IFile } from "../../interfaces";
 import { UserDto } from "../user/dtos/user.dto";
-import { UserEntity } from "../user/user.entity";
 import { UserService } from "../user/user.service";
 import { AuthService } from "./auth.service";
 import { LoginPayloadDto } from "./dto/LoginPayloadDto";

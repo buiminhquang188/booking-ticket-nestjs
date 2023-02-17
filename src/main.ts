@@ -1,4 +1,3 @@
-import { format } from "@utils/logger";
 import {
   ClassSerializerInterceptor,
   HttpStatus,
@@ -6,7 +5,6 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { NestFactory, Reflector } from "@nestjs/core";
-import { Transport } from "@nestjs/microservices";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { ExpressAdapter } from "@nestjs/platform-express";
 import compression from "compression";
@@ -25,9 +23,10 @@ import { QueryFailedFilter } from "./filters/query-failed.filter";
 import { TranslationInterceptor } from "./interceptors/translation-interceptor.service";
 import { setupSwagger } from "./setup-swagger";
 import { ApiConfigService } from "./shared/services/api-config.service";
+import { LoggerService } from "./shared/services/logger.service";
 import { TranslationService } from "./shared/services/translation.service";
 import { SharedModule } from "./shared/shared.module";
-import { LoggerService } from "@shared/services/logger.service";
+import { format } from "./utils/logger";
 
 export async function bootstrap(): Promise<NestExpressApplication> {
   initializeTransactionalContext();

@@ -1,9 +1,11 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import type { ILoggerMorgan } from "@interfaces/ILogger.interface";
-import DeviceDetector from "device-detector-js";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { SysLogEntity } from "./logger.entity";
+import type { DeviceDetectorResult } from "device-detector-js";
+import DeviceDetector from "device-detector-js";
 import { Repository } from "typeorm";
+
+import type { ILoggerMorgan } from "../../interfaces/ILogger.interface";
+import { SysLogEntity } from "./logger.entity";
 
 @Injectable()
 export class LoggerService {
@@ -13,34 +15,39 @@ export class LoggerService {
   ) {}
 
   private readonly deviceDetector = new DeviceDetector();
-  public async create(request: ILoggerMorgan) {
+
+  public async create(request: ILoggerMorgan<any>) {
     let currentUser = "";
+
     if (request.token === "-") {
       currentUser = request.reqBody.username;
-    } else {
-      try {
-      } catch (error) {
-        throw new UnauthorizedException();
-      }
     }
-    const device = this.deviceDetector.parse(request.userAgent);
+    // else {
+    //   try {
+
+    //   } catch {
+    //     throw new UnauthorizedException();
+    //   }
+    // }
+
+    const device: DeviceDetectorResult = this.deviceDetector.parse(
+      request.userAgent
+    );
     let saveDeviceName = "";
 
-    if (device?.client?.name) {
-      if (device?.os?.name) {
-        saveDeviceName = `${device.client.name}/${device.client.version} [${device.os.name}]`;
-      } else {
-        saveDeviceName = `${device.client.name}/${device.client.version}`;
-      }
+    if (device.client?.name) {
+      saveDeviceName = device.os?.name
+        ? `${device.client.name}/${device.client.version} [${device.os.name}]`
+        : `${device.client.name}/${device.client.version}`;
     }
 
     const sysLog: SysLogEntity = new SysLogEntity(
       saveDeviceName,
       request.method,
       request.url,
-      parseInt(request.status),
-      parseFloat(request.totalTime),
-      parseFloat(request.responseTime),
+      Number.parseInt(request.status, 10),
+      Number.parseFloat(request.totalTime),
+      Number.parseFloat(request.responseTime),
       currentUser,
       request.ip
     );

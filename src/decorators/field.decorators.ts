@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { applyDecorators } from '@nestjs/common';
-import type { ApiPropertyOptions } from '@nestjs/swagger';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { applyDecorators } from "@nestjs/common";
+import type { ApiPropertyOptions } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import {
   ArrayMaxSize,
   ArrayMinSize,
@@ -24,11 +24,11 @@ import {
   Min,
   MinLength,
   ValidateNested,
-} from 'class-validator';
-import _ from 'lodash';
+} from "class-validator";
+import _ from "lodash";
 
-import { supportedLanguageCount } from '../constants';
-import { ApiEnumProperty, ApiUUIDProperty } from './property.decorators';
+import { supportedLanguageCount } from "../constants";
+import { ApiEnumProperty, ApiUUIDProperty } from "./property.decorators";
 import {
   PhoneNumberSerializer,
   ToArray,
@@ -36,8 +36,8 @@ import {
   ToLowerCase,
   ToUpperCase,
   Trim,
-} from './transform.decorators';
-import { IsPassword, IsPhoneNumber, IsTmpKey } from './validator.decorators';
+} from "./transform.decorators";
+import { IsPassword, IsPhoneNumber, IsTmpKey } from "./validator.decorators";
 
 type RequireField<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
@@ -59,7 +59,7 @@ interface INumberFieldOptions {
 }
 
 export function NumberField(
-  options: Omit<ApiPropertyOptions, 'type'> & INumberFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & INumberFieldOptions = {}
 ): PropertyDecorator {
   const decorators = [Type(() => Number)];
 
@@ -68,7 +68,7 @@ export function NumberField(
 
   if (swagger !== false) {
     decorators.push(
-      ApiProperty({ type: Number, ...options, example: int ? 1 : 1.2 }),
+      ApiProperty({ type: Number, ...options, example: int ? 1 : 1.2 })
     );
   }
 
@@ -98,21 +98,21 @@ export function NumberField(
 }
 
 export function NumberFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
     Partial<{
       each: boolean;
       int: boolean;
       isPositive: boolean;
-    }> = {},
+    }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    NumberField({ required: false, ...options }),
+    NumberField({ required: false, ...options })
   );
 }
 
 export function StringField(
-  options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}
 ): PropertyDecorator {
   const decorators = [IsNotEmpty(), IsString(), Trim()];
 
@@ -140,38 +140,37 @@ export function StringField(
 }
 
 export function StringFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    StringField({ required: false, ...options }),
+    StringField({ required: false, ...options })
   );
 }
 
 export function PasswordField(
-  options: Omit<ApiPropertyOptions, 'type' | 'minLength'> &
-    IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type" | "minLength"> &
+    IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(
-    StringField({ format: '^[\\d!#$%&*@A-Z^a-z]*$', ...options }),
-    IsPassword(),
+    StringField({ format: "^[\\d!#$%&*@A-Z^a-z]*$", ...options }),
+    IsPassword()
   );
 }
 
 export function PasswordFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required' | 'minLength'> &
-    IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type" | "required" | "minLength"> &
+    IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    PasswordField({ required: false, ...options }),
+    PasswordField({ required: false, ...options })
   );
 }
 
 export function BooleanField(
-  options: Omit<ApiPropertyOptions, 'type'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type"> & Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   const decorators = [IsBoolean(), ToBoolean()];
 
@@ -183,18 +182,18 @@ export function BooleanField(
 }
 
 export function BooleanFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    BooleanField({ required: false, ...options }),
+    BooleanField({ required: false, ...options })
   );
 }
 
 export function TranslationsField(
-  options: RequireField<Omit<ApiPropertyOptions, 'isArray'>, 'type'> &
-    Partial<{ swagger: boolean }>,
+  options: RequireField<Omit<ApiPropertyOptions, "isArray">, "type"> &
+    Partial<{ swagger: boolean }>
 ): PropertyDecorator {
   const decorators = [
     ArrayMinSize(supportedLanguageCount),
@@ -213,18 +212,17 @@ export function TranslationsField(
 }
 
 export function TranslationsFieldOptional(
-  options: RequireField<Omit<ApiPropertyOptions, 'isArray'>, 'type'> &
-    Partial<{ swagger: boolean }>,
+  options: RequireField<Omit<ApiPropertyOptions, "isArray">, "type"> &
+    Partial<{ swagger: boolean }>
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    TranslationsField({ required: false, ...options }),
+    TranslationsField({ required: false, ...options })
   );
 }
 
 export function TmpKeyField(
-  options: Omit<ApiPropertyOptions, 'type'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type"> & Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   const decorators = [IsTmpKey()];
 
@@ -236,22 +234,22 @@ export function TmpKeyField(
 }
 
 export function TmpKeyFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    TmpKeyField({ required: false, ...options }),
+    TmpKeyField({ required: false, ...options })
   );
 }
 
 export function EnumField<TEnum>(
   getEnum: () => TEnum,
-  options: Omit<ApiPropertyOptions, 'type' | 'enum' | 'enumName'> &
+  options: Omit<ApiPropertyOptions, "type" | "enum" | "enumName"> &
     Partial<{
       each: boolean;
       swagger: boolean;
-    }> = {},
+    }> = {}
 ): PropertyDecorator {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const enumValue = getEnum() as any;
@@ -270,17 +268,17 @@ export function EnumField<TEnum>(
 
 export function EnumFieldOptional<TEnum>(
   getEnum: () => TEnum,
-  options: Omit<ApiPropertyOptions, 'type' | 'required' | 'enum' | 'enumName'> &
-    Partial<{ each: boolean; swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required" | "enum" | "enumName"> &
+    Partial<{ each: boolean; swagger: boolean }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    EnumField(getEnum, { required: false, ...options }),
+    EnumField(getEnum, { required: false, ...options })
   );
 }
 
 export function EmailField(
-  options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}
 ): PropertyDecorator {
   const decorators = [
     IsEmail(),
@@ -295,17 +293,16 @@ export function EmailField(
 }
 
 export function EmailFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    EmailField({ required: false, ...options }),
+    EmailField({ required: false, ...options })
   );
 }
 
 export function PhoneField(
-  options: Omit<ApiPropertyOptions, 'type'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type"> & Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   const decorators = [IsPhoneNumber(), PhoneNumberSerializer()];
 
@@ -317,20 +314,20 @@ export function PhoneField(
 }
 
 export function PhoneFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    Partial<{ swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    Partial<{ swagger: boolean }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    PhoneField({ required: false, ...options }),
+    PhoneField({ required: false, ...options })
   );
 }
 
 export function UUIDField(
-  options: Omit<ApiPropertyOptions, 'type' | 'format'> &
-    Partial<{ each: boolean; swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "format"> &
+    Partial<{ each: boolean; swagger: boolean }> = {}
 ): PropertyDecorator {
-  const decorators = [IsUUID('4', { each: options.each })];
+  const decorators = [IsUUID("4", { each: options.each })];
 
   if (options.swagger !== false) {
     decorators.push(ApiUUIDProperty(options));
@@ -344,32 +341,32 @@ export function UUIDField(
 }
 
 export function UUIDFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    Partial<{ each: boolean; swagger: boolean }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    Partial<{ each: boolean; swagger: boolean }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    UUIDField({ required: false, ...options }),
+    UUIDField({ required: false, ...options })
   );
 }
 
 export function URLField(
-  options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(StringField(options), IsUrl());
 }
 
 export function URLFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type'> & IStringFieldOptions = {},
+  options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    URLField({ required: false, ...options }),
+    URLField({ required: false, ...options })
   );
 }
 
 export function DateField(
-  options: Omit<ApiPropertyOptions, 'type'> & Partial<{ swagger: false }> = {},
+  options: Omit<ApiPropertyOptions, "type"> & Partial<{ swagger: false }> = {}
 ): PropertyDecorator {
   const decorators = [Type(() => Date), IsDate()];
 
@@ -381,11 +378,11 @@ export function DateField(
 }
 
 export function DateFieldOptional(
-  options: Omit<ApiPropertyOptions, 'type' | 'required'> &
-    Partial<{ swagger: false }> = {},
+  options: Omit<ApiPropertyOptions, "type" | "required"> &
+    Partial<{ swagger: false }> = {}
 ): PropertyDecorator {
   return applyDecorators(
     IsOptional(),
-    DateField({ ...options, required: false }),
+    DateField({ ...options, required: false })
   );
 }

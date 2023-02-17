@@ -1,14 +1,14 @@
-import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
 
-import type { IAbstractEntity } from '../../common/abstract.entity';
-import { AbstractEntity } from '../../common/abstract.entity';
-import { RoleType } from '../../constants';
-import { UseDto, VirtualColumn } from '../../decorators';
-import { PostEntity } from '../post/post.entity';
-import type { UserDtoOptions } from './dtos/user.dto';
-import { UserDto } from './dtos/user.dto';
-import type { IUserSettingsEntity } from './user-settings.entity';
-import { UserSettingsEntity } from './user-settings.entity';
+import type { IAbstractEntity } from "../common/abstract.entity";
+import { AbstractEntity } from "../common/abstract.entity";
+import { RoleType } from "../constants";
+import { UseDto, VirtualColumn } from "../decorators";
+import { PostEntity } from "../modules/post/post.entity";
+import type { UserDtoOptions } from "../modules/user/dtos/user.dto";
+import { UserDto } from "../modules/user/dtos/user.dto";
+import type { IUserSettingsEntity } from "../modules/user/user-settings.entity";
+import { UserSettingsEntity } from "../modules/user/user-settings.entity";
 
 export interface IUserEntity extends IAbstractEntity<UserDto> {
   firstName?: string;
@@ -30,7 +30,7 @@ export interface IUserEntity extends IAbstractEntity<UserDto> {
   settings?: IUserSettingsEntity;
 }
 
-@Entity({ name: 'users' })
+@Entity({ name: "users" })
 @UseDto(UserDto)
 export class UserEntity
   extends AbstractEntity<UserDto, UserDtoOptions>
@@ -42,7 +42,7 @@ export class UserEntity
   @Column({ nullable: true })
   lastName?: string;
 
-  @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
+  @Column({ type: "enum", enum: RoleType, default: RoleType.USER })
   role: RoleType;
 
   @Column({ unique: true, nullable: true })

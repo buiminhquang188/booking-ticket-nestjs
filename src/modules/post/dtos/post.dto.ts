@@ -1,9 +1,9 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from "@nestjs/swagger";
 
-import { AbstractDto } from '../../../common/dto/abstract.dto';
-import { DynamicTranslate, StaticTranslate } from '../../../decorators';
-import type { PostEntity } from '../post.entity';
-import { PostTranslationDto } from './post-translation.dto';
+import { AbstractDto } from "../../../common/dto/abstract.dto";
+import { DynamicTranslate, StaticTranslate } from "../../../decorators";
+import type { PostEntity } from "../post.entity";
+import { PostTranslationDto } from "./post-translation.dto";
 
 export class PostDto extends AbstractDto {
   @ApiPropertyOptional()
@@ -23,6 +23,6 @@ export class PostDto extends AbstractDto {
   constructor(postEntity: PostEntity) {
     super(postEntity);
 
-    this.info = 'keywords.admin';
+    this.info = "keywords.admin";
   }
 }

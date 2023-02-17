@@ -2,11 +2,11 @@ import type {
   EntitySubscriberInterface,
   InsertEvent,
   UpdateEvent,
-} from 'typeorm';
-import { EventSubscriber } from 'typeorm';
+} from "typeorm";
+import { EventSubscriber } from "typeorm";
 
-import { generateHash } from '../common/utils';
-import { UserEntity } from '../modules/user/user.entity';
+import { generateHash } from "../common/utils";
+import { UserEntity } from "../entity/user.entity";
 
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {

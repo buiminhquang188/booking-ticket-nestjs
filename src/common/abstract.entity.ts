@@ -3,11 +3,11 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-import { LanguageCode } from '../constants';
-import type { Constructor } from '../types';
-import type { AbstractDto, AbstractTranslationDto } from './dto/abstract.dto';
+import { LanguageCode } from "../constants";
+import type { Constructor } from "../types";
+import type { AbstractDto, AbstractTranslationDto } from "./dto/abstract.dto";
 
 /**
  * Abstract Entity
@@ -27,19 +27,19 @@ export interface IAbstractEntity<DTO extends AbstractDto, O = never> {
 
 export abstract class AbstractEntity<
   DTO extends AbstractDto = AbstractDto,
-  O = never,
+  O = never
 > implements IAbstractEntity<DTO, O>
 {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: Uuid;
 
   @CreateDateColumn({
-    type: 'timestamp',
+    type: "timestamp",
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp',
+    type: "timestamp",
   })
   updatedAt: Date;
 
@@ -52,7 +52,7 @@ export abstract class AbstractEntity<
 
     if (!dtoClass) {
       throw new Error(
-        `You need to use @UseDto on class (${this.constructor.name}) be able to call toDto function`,
+        `You need to use @UseDto on class (${this.constructor.name}) be able to call toDto function`
       );
     }
 
@@ -62,8 +62,8 @@ export abstract class AbstractEntity<
 
 export class AbstractTranslationEntity<
   DTO extends AbstractTranslationDto = AbstractTranslationDto,
-  O = never,
+  O = never
 > extends AbstractEntity<DTO, O> {
-  @Column({ type: 'enum', enum: LanguageCode })
+  @Column({ type: "enum", enum: LanguageCode })
   languageCode: LanguageCode;
 }

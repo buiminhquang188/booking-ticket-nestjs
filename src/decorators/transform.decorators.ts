@@ -1,8 +1,8 @@
-import { Transform, TransformationType } from 'class-transformer';
-import { parsePhoneNumber } from 'libphonenumber-js';
-import { castArray, isArray, isNil, map, trim } from 'lodash';
+import { Transform, TransformationType } from "class-transformer";
+import { parsePhoneNumber } from "libphonenumber-js";
+import { castArray, isArray, isNil, map, trim } from "lodash";
 
-import { GeneratorProvider } from '../providers';
+import { GeneratorProvider } from "../providers";
 
 /**
  * @description trim spaces from start and end, replace multiple spaces with one.
@@ -19,10 +19,10 @@ export function Trim(): PropertyDecorator {
     const value = params.value as string[] | string;
 
     if (isArray(value)) {
-      return map(value, (v) => trim(v).replace(/\s\s+/g, ' '));
+      return map(value, (v) => trim(v).replace(/\s\s+/g, " "));
     }
 
-    return trim(value).replace(/\s\s+/g, ' ');
+    return trim(value).replace(/\s\s+/g, " ");
   });
 }
 
@@ -30,15 +30,15 @@ export function ToBoolean(): PropertyDecorator {
   return Transform(
     (params) => {
       switch (params.value) {
-        case 'true':
+        case "true":
           return true;
-        case 'false':
+        case "false":
           return false;
         default:
           return params.value;
       }
     },
-    { toClassOnly: true },
+    { toClassOnly: true }
   );
 }
 
@@ -58,7 +58,7 @@ export function ToInt(): PropertyDecorator {
 
       return Number.parseInt(value, 10);
     },
-    { toClassOnly: true },
+    { toClassOnly: true }
   );
 }
 
@@ -81,7 +81,7 @@ export function ToArray(): PropertyDecorator {
 
       return castArray(value);
     },
-    { toClassOnly: true },
+    { toClassOnly: true }
   );
 }
 
@@ -102,7 +102,7 @@ export function ToLowerCase(): PropertyDecorator {
     },
     {
       toClassOnly: true,
-    },
+    }
   );
 }
 
@@ -123,7 +123,7 @@ export function ToUpperCase(): PropertyDecorator {
     },
     {
       toClassOnly: true,
-    },
+    }
   );
 }
 

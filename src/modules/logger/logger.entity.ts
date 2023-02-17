@@ -45,7 +45,7 @@ export class SysLogEntity {
     totalTime?: number,
     responseTime?: number,
     username?: string,
-    ip?: string,
+    ip?: string
   ) {
     this.device = device;
     this.method = method;

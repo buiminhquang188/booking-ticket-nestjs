@@ -1,10 +1,8 @@
-import { Injectable } from '@nestjs/common';
-// import AWS from 'aws-sdk';
-import mime from 'mime-types';
+import { Injectable } from "@nestjs/common";
 
-import type { IFile } from '../../interfaces';
-import { ApiConfigService } from './api-config.service';
-import { GeneratorService } from './generator.service';
+// import AWS from 'aws-sdk';
+import { ApiConfigService } from "./api-config.service";
+import { GeneratorService } from "./generator.service";
 
 @Injectable()
 export class AwsS3Service {
@@ -12,15 +10,13 @@ export class AwsS3Service {
 
   constructor(
     public configService: ApiConfigService,
-    public generatorService: GeneratorService,
+    public generatorService: GeneratorService
   ) {
     // const awsS3Config = configService.awsS3Config;
-
     // const options: AWS.S3.Types.ClientConfiguration = {
     //   apiVersion: awsS3Config.bucketApiVersion,
     //   region: awsS3Config.bucketRegion,
     // };
-
     // this.s3 = new AWS.S3(options);
   }
 

@@ -1,4 +1,4 @@
-import { bootstrap } from './main';
+import { bootstrap } from "./main";
 
 void bootstrap().then((app) => {
   if (module.hot) {

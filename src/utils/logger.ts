@@ -1,7 +1,3 @@
-import { ILoggerMorgan } from "@interfaces/ILogger.interface";
-import { SysLogEntity } from "@modules/logger/logger.entity";
-import { LoggerService } from "@modules/logger/logger.service";
-import type { StreamOptions } from "morgan";
 import json from "morgan-json";
 import winston from "winston";
 

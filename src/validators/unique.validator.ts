@@ -1,23 +1,23 @@
-import { InjectDataSource } from '@nestjs/typeorm';
+import { InjectDataSource } from "@nestjs/typeorm";
 import type {
   ValidationArguments,
   ValidationOptions,
   ValidatorConstraintInterface,
-} from 'class-validator';
-import { registerDecorator, ValidatorConstraint } from 'class-validator';
-import type { EntitySchema, FindOptionsWhere, ObjectType } from 'typeorm';
-import { DataSource } from 'typeorm';
+} from "class-validator";
+import { registerDecorator, ValidatorConstraint } from "class-validator";
+import type { EntitySchema, FindOptionsWhere, ObjectType } from "typeorm";
+import { DataSource } from "typeorm";
 
 /**
  * @deprecated Don't use this validator until it's fixed in NestJS
  */
-@ValidatorConstraint({ name: 'unique', async: true })
+@ValidatorConstraint({ name: "unique", async: true })
 export class UniqueValidator implements ValidatorConstraintInterface {
   constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
   public async validate<E>(
     value: string,
-    args: IUniqueValidationArguments<E>,
+    args: IUniqueValidationArguments<E>
   ): Promise<boolean> {
     const [entityClass, findCondition] = args.constraints;
 
@@ -30,7 +30,7 @@ export class UniqueValidator implements ValidatorConstraintInterface {
 
   defaultMessage(args: ValidationArguments): string {
     const [entityClass] = args.constraints;
-    const entity = entityClass.name || 'Entity';
+    const entity = entityClass.name || "Entity";
 
     return `${entity} with the same ${args.property} already exists`;
   }
@@ -38,7 +38,7 @@ export class UniqueValidator implements ValidatorConstraintInterface {
 
 type UniqueValidationConstraints<E> = [
   ObjectType<E> | EntitySchema<E> | string,
-  (validationArguments: ValidationArguments) => FindOptionsWhere<E>,
+  (validationArguments: ValidationArguments) => FindOptionsWhere<E>
 ];
 interface IUniqueValidationArguments<E> extends ValidationArguments {
   constraints: UniqueValidationConstraints<E>;
@@ -46,7 +46,7 @@ interface IUniqueValidationArguments<E> extends ValidationArguments {
 
 export function Unique<E>(
   constraints: Partial<UniqueValidationConstraints<E>>,
-  validationOptions?: ValidationOptions,
+  validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return function (object, propertyName: string) {
     registerDecorator({

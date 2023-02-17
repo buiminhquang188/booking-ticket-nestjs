@@ -1,11 +1,11 @@
-export interface ILoggerMorgan {
+export interface ILoggerMorgan<TReqBody> {
   method: string;
   url: string;
   status: string;
   totalTime: string;
   responseTime: string;
   userAgent: string;
-  reqBody: any;
+  reqBody: TReqBody;
   token: string;
   ip: string;
 }

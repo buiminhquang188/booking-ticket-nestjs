@@ -1,25 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import type { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { isNil } from 'lodash';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import type { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { isNil } from "lodash";
 
-import { UserSubscriber } from '../../entity-subscribers/user-subscriber';
-import { SnakeNamingStrategy } from '../../snake-naming.strategy';
+import { UserSubscriber } from "../../entity-subscribers/user-subscriber";
+import { SnakeNamingStrategy } from "../../snake-naming.strategy";
 
 @Injectable()
 export class ApiConfigService {
   constructor(private configService: ConfigService) {}
 
   get isDevelopment(): boolean {
-    return this.nodeEnv === 'development';
+    return this.nodeEnv === "development";
   }
 
   get isProduction(): boolean {
-    return this.nodeEnv === 'production';
+    return this.nodeEnv === "production";
   }
 
   get isTest(): boolean {
-    return this.nodeEnv === 'test';
+    return this.nodeEnv === "test";
   }
 
   private getNumber(key: string): number {
@@ -28,7 +28,7 @@ export class ApiConfigService {
     try {
       return Number(value);
     } catch {
-      throw new Error(key + ' environment variable is not a number');
+      throw new Error(key + " environment variable is not a number");
     }
   }
 
@@ -38,36 +38,36 @@ export class ApiConfigService {
     try {
       return Boolean(JSON.parse(value));
     } catch {
-      throw new Error(key + ' env var is not a boolean');
+      throw new Error(key + " env var is not a boolean");
     }
   }
 
   private getString(key: string): string {
     const value = this.get(key);
 
-    return value.replace(/\\n/g, '\n');
+    return value.replace(/\\n/g, "\n");
   }
 
   get nodeEnv(): string {
-    return this.getString('NODE_ENV');
+    return this.getString("NODE_ENV");
   }
 
   get fallbackLanguage(): string {
-    return this.getString('FALLBACK_LANGUAGE');
+    return this.getString("FALLBACK_LANGUAGE");
   }
 
   get postgresConfig(): TypeOrmModuleOptions {
     let entities = [
-      __dirname + '/../../modules/**/*.entity{.ts,.js}',
-      __dirname + '/../../modules/**/*.view-entity{.ts,.js}',
+      __dirname + "/../../modules/**/*.entity{.ts,.js}",
+      __dirname + "/../../modules/**/*.view-entity{.ts,.js}",
     ];
-    let migrations = [__dirname + '/../../database/migrations/*{.ts,.js}'];
+    let migrations = [__dirname + "/../../database/migrations/*{.ts,.js}"];
 
     if (module.hot) {
       const entityContext = require.context(
-        './../../modules',
+        "./../../modules",
         true,
-        /\.entity\.ts$/,
+        /\.entity\.ts$/
       );
       entities = entityContext.keys().map((id) => {
         const entityModule = entityContext<Record<string, unknown>>(id);
@@ -76,9 +76,9 @@ export class ApiConfigService {
         return entity as string;
       });
       const migrationContext = require.context(
-        './../../database/migrations',
+        "./../../database/migrations",
         false,
-        /\.ts$/,
+        /\.ts$/
       );
 
       migrations = migrationContext.keys().map((id) => {
@@ -94,16 +94,16 @@ export class ApiConfigService {
       migrations,
       keepConnectionAlive: !this.isTest,
       dropSchema: this.isTest,
-      type: 'postgres',
-      name: 'default',
-      host: this.getString('DB_HOST'),
-      port: this.getNumber('DB_PORT'),
-      username: this.getString('DB_USERNAME'),
-      password: this.getString('DB_PASSWORD'),
-      database: this.getString('DB_DATABASE'),
+      type: "postgres",
+      name: "default",
+      host: this.getString("DB_HOST"),
+      port: this.getNumber("DB_PORT"),
+      username: this.getString("DB_USERNAME"),
+      password: this.getString("DB_PASSWORD"),
+      database: this.getString("DB_DATABASE"),
       subscribers: [UserSubscriber],
       migrationsRun: true,
-      logging: this.getBoolean('ENABLE_ORM_LOGS'),
+      logging: this.getBoolean("ENABLE_ORM_LOGS"),
       namingStrategy: new SnakeNamingStrategy(),
     };
   }
@@ -117,31 +117,31 @@ export class ApiConfigService {
   // }
 
   get documentationEnabled(): boolean {
-    return this.getBoolean('ENABLE_DOCUMENTATION');
+    return this.getBoolean("ENABLE_DOCUMENTATION");
   }
 
   get natsEnabled(): boolean {
-    return this.getBoolean('NATS_ENABLED');
+    return this.getBoolean("NATS_ENABLED");
   }
 
   get natsConfig() {
     return {
-      host: this.getString('NATS_HOST'),
-      port: this.getNumber('NATS_PORT'),
+      host: this.getString("NATS_HOST"),
+      port: this.getNumber("NATS_PORT"),
     };
   }
 
   get authConfig() {
     return {
-      privateKey: this.getString('JWT_PRIVATE_KEY'),
-      publicKey: this.getString('JWT_PUBLIC_KEY'),
-      jwtExpirationTime: this.getNumber('JWT_EXPIRATION_TIME'),
+      privateKey: this.getString("JWT_PRIVATE_KEY"),
+      publicKey: this.getString("JWT_PUBLIC_KEY"),
+      jwtExpirationTime: this.getNumber("JWT_EXPIRATION_TIME"),
     };
   }
 
   get appConfig() {
     return {
-      port: this.getString('PORT'),
+      port: this.getString("PORT"),
     };
   }
 
@@ -149,7 +149,7 @@ export class ApiConfigService {
     const value = this.configService.get<string>(key);
 
     if (isNil(value)) {
-      throw new Error(key + ' environment variable does not set'); // probably we should call process.exit() too to avoid locking the service
+      throw new Error(key + " environment variable does not set"); // probably we should call process.exit() too to avoid locking the service
     }
 
     return value;

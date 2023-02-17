@@ -19,11 +19,6 @@
     "baseUrl": "./src",
     "incremental": true,
     "strictNullChecks": true,
-    "paths": {
-      "@*": ["*"],
-      "@common/*": ["common/*"],
-      "@utils/*": ["utils/*"]
-    }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env", "nodemon.json"],
   "exclude": ["node_modules", "**/*.spec.ts"]

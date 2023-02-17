@@ -1,11 +1,11 @@
-import type { ClientProxy } from '@nestjs/microservices';
-import { plainToInstance } from 'class-transformer';
-import { firstValueFrom } from 'rxjs';
+import type { ClientProxy } from "@nestjs/microservices";
+import { plainToInstance } from "class-transformer";
+import { firstValueFrom } from "rxjs";
 
-import { PageTypeException } from '../exceptions/page-type.exception';
-import type { Constructor } from '../types';
-import type { PageDto } from './dto/page.dto';
-import type { PageMetaDto } from './dto/page-meta.dto';
+import { PageTypeException } from "../exceptions/page-type.exception";
+import type { Constructor } from "../types";
+import type { PageDto } from "./dto/page.dto";
+import type { PageMetaDto } from "./dto/page-meta.dto";
 
 /**
  * Fixme: This class designed to use with @nestjs/microservices by extending and creating a new class.
@@ -19,13 +19,13 @@ export class AbstractClientService<ActionType> {
   public async send<R>(
     pattern: ActionType,
     data: unknown,
-    returnDataOptions: { class: Constructor<R>; isPage: true },
+    returnDataOptions: { class: Constructor<R>; isPage: true }
   ): Promise<PageDto<R>>;
 
   public async send<R>(
     pattern: ActionType,
     data: unknown,
-    returnDataOptions?: { class: Constructor<R>; isPage?: false },
+    returnDataOptions?: { class: Constructor<R>; isPage?: false }
   ): Promise<R>;
 
   public async send<R, I>(
@@ -34,13 +34,13 @@ export class AbstractClientService<ActionType> {
     returnDataOptions?: Partial<{
       class?: Constructor<R>;
       isPage?: boolean;
-    }>,
+    }>
   ): Promise<R | PageDto<R> | void> {
     const returnData = await firstValueFrom(
       this.client.send<{ data?: R; meta?: PageMetaDto }>(pattern, data),
       {
         defaultValue: undefined,
-      },
+      }
     );
 
     if (returnDataOptions?.isPage && (!returnData?.data || !returnData.meta)) {

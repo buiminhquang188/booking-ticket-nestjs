@@ -1,13 +1,13 @@
-import type { IAuthGuard, Type } from '@nestjs/passport';
-import { AuthGuard as NestAuthGuard } from '@nestjs/passport';
+import type { IAuthGuard, Type } from "@nestjs/passport";
+import { AuthGuard as NestAuthGuard } from "@nestjs/passport";
 
 export function AuthGuard(
-  options?: Partial<{ public: boolean }>,
+  options?: Partial<{ public: boolean }>
 ): Type<IAuthGuard> {
-  const strategies = ['jwt'];
+  const strategies = ["jwt"];
 
   if (options?.public) {
-    strategies.push('public');
+    strategies.push("public");
   }
 
   return NestAuthGuard(strategies);

@@ -1,12 +1,12 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
-import type { IAbstractEntity } from '../../common/abstract.entity';
-import { AbstractEntity } from '../../common/abstract.entity';
-import { UseDto } from '../../decorators';
-import type { UserDtoOptions } from './dtos/user.dto';
-import { UserDto } from './dtos/user.dto';
-import type { IUserEntity } from './user.entity';
-import { UserEntity } from './user.entity';
+import type { IAbstractEntity } from "../../common/abstract.entity";
+import { AbstractEntity } from "../../common/abstract.entity";
+import { UseDto } from "../../decorators";
+import type { IUserEntity } from "../../entity/user.entity";
+import { UserEntity } from "../../entity/user.entity";
+import type { UserDtoOptions } from "./dtos/user.dto";
+import { UserDto } from "./dtos/user.dto";
 
 export interface IUserSettingsEntity extends IAbstractEntity<UserDto> {
   isEmailVerified?: boolean;
@@ -16,7 +16,7 @@ export interface IUserSettingsEntity extends IAbstractEntity<UserDto> {
   user?: IUserEntity;
 }
 
-@Entity({ name: 'user_settings' })
+@Entity({ name: "user_settings" })
 @UseDto(UserDto)
 export class UserSettingsEntity
   extends AbstractEntity<UserDto, UserDtoOptions>
@@ -28,13 +28,13 @@ export class UserSettingsEntity
   @Column({ default: false })
   isPhoneVerified?: boolean;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: "uuid" })
   userId?: string;
 
   @OneToOne(() => UserEntity, (user) => user.settings, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: "user_id" })
   user?: UserEntity;
 }
