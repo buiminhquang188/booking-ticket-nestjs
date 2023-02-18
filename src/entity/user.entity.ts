@@ -9,6 +9,7 @@ import type { UserDtoOptions } from "../modules/user/dtos/user.dto";
 import { UserDto } from "../modules/user/dtos/user.dto";
 import type { IUserSettingsEntity } from "../modules/user/user-settings.entity";
 import { UserSettingsEntity } from "../modules/user/user-settings.entity";
+import { TicketEntity } from "./ticket.entity";
 
 export interface IUserEntity extends IAbstractEntity<UserDto> {
   firstName?: string;
@@ -59,6 +60,9 @@ export class UserEntity
 
   @VirtualColumn()
   fullName?: string;
+
+  @OneToMany(() => TicketEntity, (ticket) => ticket.user)
+  tickets: TicketEntity[];
 
   @OneToOne(() => UserSettingsEntity, (userSettings) => userSettings.user)
   settings?: UserSettingsEntity;

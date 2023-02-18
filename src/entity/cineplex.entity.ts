@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
+import { CinemaEntity } from "./cinema.entity";
 
 @Entity()
 export class CineplexEntity {
@@ -10,4 +12,7 @@ export class CineplexEntity {
 
   @Column({ type: "varchar", length: 50, nullable: false })
   logo: string;
+
+  @OneToMany(() => CinemaEntity, (cinema) => cinema.cineplex)
+  cinemas: CinemaEntity[];
 }

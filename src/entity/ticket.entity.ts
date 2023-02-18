@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { MovieEntity } from "./movie.entity";
 import { UserEntity } from "./user.entity";
@@ -8,11 +8,9 @@ export class TicketEntity {
   @PrimaryGeneratedColumn({ type: "int" })
   id: number;
 
-  @OneToOne(() => UserEntity, (user) => user.id)
-  @Column({ type: "int", nullable: false })
-  userId: number;
+  @ManyToOne(() => UserEntity, (user) => user.tickets)
+  user: UserEntity;
 
-  @OneToOne(() => MovieEntity, (movie) => movie.id)
-  @Column({ type: "int", nullable: false })
-  movieId: number;
+  @ManyToOne(() => MovieEntity, (movie) => movie.tickets)
+  movie: MovieEntity;
 }

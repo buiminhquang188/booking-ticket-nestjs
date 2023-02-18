@@ -1,16 +1,25 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 import { CinemaEntity } from "./cinema.entity";
+import { SeatEntity } from "./seat.entity";
 
 @Entity()
 export class ShowTimeEntity {
   @PrimaryGeneratedColumn({ type: "int" })
   id: number;
 
-  @Column({ type: "datetime", nullable: false })
+  @Column({ type: "date", nullable: false })
   startTime: Date;
 
-  @OneToOne(() => CinemaEntity, (cinema) => cinema.id)
-  @Column({ type: "varchar", length: 30, nullable: false })
-  cinemaId: string;
+  @ManyToOne(() => CinemaEntity, (cinema) => cinema.cinemas)
+  cinema: CinemaEntity;
+
+  @OneToMany(() => SeatEntity, (seat) => seat.showTime)
+  seats: SeatEntity[];
 }

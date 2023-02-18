@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { ShowTimeEntity } from "./show-time.entity";
 
@@ -19,7 +19,6 @@ export class SeatEntity {
   @Column({ type: "char", length: 6, nullable: false })
   type: string;
 
-  @OneToOne(() => ShowTimeEntity, (showTime) => showTime.id)
-  @Column({ type: "varchar", length: 30, nullable: false })
-  showTimeId: string;
+  @ManyToOne(() => ShowTimeEntity, (showTime) => showTime.seats)
+  showTime: ShowTimeEntity;
 }

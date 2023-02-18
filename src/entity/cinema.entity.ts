@@ -1,6 +1,14 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
+import { CinemaMovieEntity } from "./cinema-movie.entity";
 import { CineplexEntity } from "./cineplex.entity";
+import { ShowTimeEntity } from "./show-time.entity";
 
 @Entity()
 export class CinemaEntity {
@@ -16,7 +24,12 @@ export class CinemaEntity {
   @Column({ type: "varchar", length: 50, nullable: false })
   image: string;
 
-  @OneToOne(() => CineplexEntity, (cineplex) => cineplex.id)
-  @Column({ type: "int", nullable: false })
-  cineplexId: number;
+  @OneToMany(() => CinemaMovieEntity, (cinemaMovie) => cinemaMovie.cinema)
+  cinemas: CinemaMovieEntity[];
+
+  @OneToMany(() => ShowTimeEntity, (showTime) => showTime.cinema)
+  showTimes: ShowTimeEntity[];
+
+  @ManyToOne(() => CineplexEntity, (cineplex) => cineplex.cinemas)
+  cineplex: CineplexEntity;
 }

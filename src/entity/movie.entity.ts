@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
+import { CinemaMovieEntity } from "./cinema-movie.entity";
+import { TicketEntity } from "./ticket.entity";
 
 @Entity()
 export class MovieEntity {
@@ -8,13 +11,13 @@ export class MovieEntity {
   @Column({ type: "varchar", length: 50, nullable: false })
   movieName: string;
 
-  @Column({ type: "datetime", nullable: false })
+  @Column({ type: "date", nullable: false })
   startDate: Date;
 
-  @Column({ type: "tinyint", nullable: false })
+  @Column({ type: "int", nullable: false })
   time: number;
 
-  @Column({ type: "tinyint", nullable: false })
+  @Column({ type: "int", nullable: false })
   evaluate: number;
 
   @Column({ type: "varchar", length: 50, nullable: false })
@@ -22,4 +25,10 @@ export class MovieEntity {
 
   @Column({ type: "varchar", length: 50, nullable: false })
   trailer: string;
+
+  @OneToMany(() => TicketEntity, (ticket) => ticket.movie)
+  tickets: TicketEntity[];
+
+  @OneToMany(() => CinemaMovieEntity, (cinemaMovie) => cinemaMovie.movie)
+  cinemaMovies: MovieEntity[];
 }
