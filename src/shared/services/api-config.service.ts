@@ -58,8 +58,8 @@ export class ApiConfigService {
 
   get postgresConfig(): TypeOrmModuleOptions {
     let entities = [
-      __dirname + "/../../modules/**/*.entity{.ts,.js}",
-      __dirname + "/../../modules/**/*.view-entity{.ts,.js}",
+      __dirname + "/../../**/**/*.entity{.ts,.js}",
+      __dirname + "/../../**/**/*.view-entity{.ts,.js}",
     ];
     let migrations = [__dirname + "/../../database/migrations/*{.ts,.js}"];
 
@@ -105,7 +105,7 @@ export class ApiConfigService {
       migrationsRun: true,
       logging: this.getBoolean("ENABLE_ORM_LOGS"),
       namingStrategy: new SnakeNamingStrategy(),
-      synchronize: true,
+      synchronize: false,
     };
   }
 
