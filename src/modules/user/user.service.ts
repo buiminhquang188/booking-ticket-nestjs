@@ -15,6 +15,7 @@ import { ValidatorService } from "../../shared/services/validator.service";
 import { UserRegisterDto } from "../auth/dto/UserRegisterDto";
 import { CreateSettingsCommand } from "./commands/create-settings.command";
 import { CreateSettingsDto } from "./dtos/create-settings.dto";
+import { UpdateUserDto } from "./dtos/update-user.dto";
 import type { UserDto } from "./dtos/user.dto";
 import type { UsersPageOptionsDto } from "./dtos/users-page-options.dto";
 import type { UserSettingsEntity } from "./user-settings.entity";
@@ -116,5 +117,26 @@ export class UserService {
     return this.commandBus.execute<CreateSettingsCommand, UserSettingsEntity>(
       new CreateSettingsCommand(userId, createSettingsDto)
     );
+  }
+
+  @Transactional()
+  async updateUser(
+    userId: Uuid,
+    updateUserDto: UpdateUserDto
+  ): Promise<UserEntity> {
+    const queryBuilder = this.userRepository
+      .createQueryBuilder("user")
+      .where("user.id = :userId", { userId });
+
+    const userEntity = await queryBuilder.getOne();
+
+    if (!userEntity) {
+      throw new UserNotFoundException();
+    }
+
+    return this.userRepository.save({
+      ...userEntity,
+      ...updateUserDto,
+    });
   }
 }
