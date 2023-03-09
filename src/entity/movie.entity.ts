@@ -1,13 +1,33 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 
+import type { IAbstractEntity } from "../common/abstract.entity";
+import { AbstractEntity } from "../common/abstract.entity";
+import { UseDto } from "../decorators";
+import type { MovieDtoOptions } from "./../modules/movie/dto/movie.dto";
+import { MovieDto } from "./../modules/movie/dto/movie.dto";
 import { CinemaMovieEntity } from "./cinema-movie.entity";
 import { TicketEntity } from "./ticket.entity";
 
-@Entity()
-export class MovieEntity {
-  @PrimaryGeneratedColumn({ type: "int" })
-  id: number;
+export interface IMovieEntity extends IAbstractEntity<MovieDto> {
+  movieName: string;
 
+  startDate: Date;
+
+  time: number;
+
+  evaluate: number;
+
+  poster: string;
+
+  trailer: string;
+}
+
+@Entity({ name: "movie" })
+@UseDto(MovieDto)
+export class MovieEntity
+  extends AbstractEntity<MovieDto, MovieDtoOptions>
+  implements IMovieEntity
+{
   @Column({ type: "varchar", length: 50, nullable: false })
   movieName: string;
 
