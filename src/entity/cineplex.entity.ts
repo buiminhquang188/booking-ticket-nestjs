@@ -22,7 +22,7 @@ export class CineplexEntity
   @Column({ type: "varchar", length: 50, nullable: false })
   name: string;
 
-  @Column({ type: "varchar", length: 100, nullable: false })
+  @Column({ type: "varchar", length: 200, nullable: false })
   logo: string;
 
   @OneToMany(() => CinemaEntity, (cinema) => cinema.cineplex)

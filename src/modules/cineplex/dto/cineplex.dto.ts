@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 
 import type { CineplexEntity } from "../../../entity/cineplex.entity";
 import { AbstractDto } from "./../../../common/dto/abstract.dto";
@@ -6,11 +6,11 @@ import { AbstractDto } from "./../../../common/dto/abstract.dto";
 export type CineplexDtoOptions = Partial<{ isActive: boolean }>;
 
 export class CineplexDto extends AbstractDto {
-  @ApiProperty()
-  name: string;
+  @ApiPropertyOptional()
+  name?: string;
 
-  @ApiProperty()
-  logo: string;
+  @ApiPropertyOptional()
+  logo?: string;
 
   @ApiPropertyOptional()
   isActive?: boolean;

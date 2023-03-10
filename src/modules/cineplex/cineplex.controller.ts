@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -10,14 +11,17 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import type { CineplexEntity } from "entity/cineplex.entity";
 
-import { ApiPageOkResponse, Auth } from "../../decorators";
+import { ApiPageOkResponse, Auth, UUIDParam } from "../../decorators";
 import { TranslationService } from "../../shared/services/translation.service";
 import { PageDto } from "./../../common/dto/page.dto";
 import { RoleType } from "./../../constants/role-type";
 import { CineplexService } from "./cineplex.service";
 import { CineplexDto } from "./dto/cineplex.dto";
 import { CineplexesPageOptionsDto } from "./dto/cineplex-page-option.dto";
+import { CreateCineplexDto } from "./dto/create-cineplex.dto";
+import { UpdateCineplexDto } from "./dto/update-cineplex.dto";
 
 @Controller("cineplex")
 @ApiTags("cineplex")
@@ -37,7 +41,7 @@ export class CineplexController {
   getCineplexes(
     @Query(new ValidationPipe({ transform: true }))
     pageOptionsDto: CineplexesPageOptionsDto
-  ) {
+  ): Promise<PageDto<CineplexDto>> {
     return this.cineplexService.getCineplexes(pageOptionsDto);
   }
 
@@ -50,28 +54,50 @@ export class CineplexController {
     description: "Get users list",
     type: CineplexDto,
   })
-  getCineplex() {
-    return "ok";
+  getCineplex(@UUIDParam("id") cineplexId: Uuid): Promise<CineplexDto> {
+    return this.cineplexService.getCineplex(cineplexId);
   }
 
-  @Post(":id")
+  @Post()
   @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
-  createCineplex() {
-    return "ok";
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Create cineplex",
+    type: CreateCineplexDto,
+  })
+  createCineplex(
+    @Body() createCineplexDto: CreateCineplexDto
+  ): Promise<CineplexEntity> {
+    return this.cineplexService.createCineplex(createCineplexDto);
   }
 
   @Patch(":id")
   @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
-  updateCineplex() {
-    return "ok";
+  @ApiParam({ name: "id" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Update cineplex",
+    type: CineplexDto,
+  })
+  updateCineplex(
+    @UUIDParam("id") cineplexId: Uuid,
+    @Body() updateCineplextDto: UpdateCineplexDto
+  ): Promise<CineplexEntity> {
+    return this.cineplexService.updateCineplex(cineplexId, updateCineplextDto);
   }
 
   @Delete(":id")
   @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
-  deleteCineplex() {
-    return "ok";
+  @ApiParam({ name: "id" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Delete cineplex",
+    type: CineplexDto,
+  })
+  deleteCineplex(@UUIDParam("id") cineplexId: Uuid): Promise<CineplexEntity> {
+    return this.cineplexService.deleteCineplex(cineplexId);
   }
 }
