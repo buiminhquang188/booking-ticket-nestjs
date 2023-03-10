@@ -1,20 +1,28 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import type { CinemaDtoOptions } from "modules/cinema/dto/cinema.dto";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
+import { UseDto } from "../decorators";
+import { CinemaDto } from "../modules/cinema/dto/cinema.dto";
+import type { IAbstractEntity } from "./../common/abstract.entity";
+import { AbstractEntity } from "./../common/abstract.entity";
 import { CinemaMovieEntity } from "./cinema-movie.entity";
 import { CineplexEntity } from "./cineplex.entity";
 import { ShowTimeEntity } from "./show-time.entity";
 
-@Entity()
-export class CinemaEntity {
-  @PrimaryGeneratedColumn({ type: "int" })
-  id: number;
+export interface ICinemaEntity extends IAbstractEntity<CinemaDto> {
+  name: string;
 
+  address: string;
+
+  image: string;
+}
+
+@Entity({ name: "cinemas" })
+@UseDto(CinemaDto)
+export class CinemaEntity
+  extends AbstractEntity<CinemaDto, CinemaDtoOptions>
+  implements ICinemaEntity
+{
   @Column({ type: "varchar", length: 50, nullable: false })
   name: string;
 

@@ -7,6 +7,7 @@ import { I18nModule } from "nestjs-i18n";
 import path from "path";
 
 import { AuthModule } from "./modules/auth/auth.module";
+import { CineplexModule } from "./modules/cineplex/cineplex.module";
 import { HealthCheckerModule } from "./modules/health-checker/health-checker.module";
 import { LoggerModule } from "./modules/logger/logger.module";
 import { PostModule } from "./modules/post/post.module";
@@ -20,6 +21,7 @@ import { SharedModule } from "./shared/shared.module";
     AuthModule,
     UserModule,
     PostModule,
+    CineplexModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",

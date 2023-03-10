@@ -3,7 +3,7 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { MovieEntity } from "./movie.entity";
 import { UserEntity } from "./user.entity";
 
-@Entity()
+@Entity({ name: "ticket" })
 export class TicketEntity {
   @PrimaryGeneratedColumn({ type: "int" })
   id: number;
