@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Transactional } from "typeorm-transactional-cls-hooked";
 
 import type { PageDto } from "../../common/dto/page.dto";
+import { CineplexService } from "../../modules/cineplex/cineplex.service";
 import { ValidatorService } from "../../shared/services/validator.service";
 import { CinemaEntity } from "./../../entity/cinema.entity";
 import type { CinemaDto } from "./dto/cinema.dto";
@@ -16,6 +22,8 @@ export class CinemaService {
   constructor(
     @InjectRepository(CinemaEntity)
     private cinemaEntity: Repository<CinemaEntity>,
+    @Inject(forwardRef(() => CineplexService))
+    private cineplexService: CineplexService,
     private validatorService: ValidatorService
   ) {}
 
@@ -44,7 +52,10 @@ export class CinemaService {
 
   @Transactional()
   async createCinema(createCinemaDto: CreateCinemaDto): Promise<CinemaEntity> {
-    const cinema = this.cinemaEntity.create(createCinemaDto);
+    const { cineplexId, ...rest } = createCinemaDto;
+    const cineplex = await this.cineplexService.getCineplex(cineplexId);
+
+    const cinema = this.cinemaEntity.create({ cineplex, ...rest });
 
     await this.cinemaEntity.save(cinema);
 

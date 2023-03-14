@@ -1,5 +1,5 @@
 import type { CinemaDtoOptions } from "modules/cinema/dto/cinema.dto";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 
 import { UseDto } from "../decorators";
 import { CinemaDto } from "../modules/cinema/dto/cinema.dto";
@@ -39,5 +39,6 @@ export class CinemaEntity
   showTimes: ShowTimeEntity[];
 
   @ManyToOne(() => CineplexEntity, (cineplex) => cineplex.cinemas)
+  @JoinColumn({ name: "cineplex_id" })
   cineplex: CineplexEntity;
 }
